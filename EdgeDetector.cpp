@@ -13,7 +13,13 @@ EdgeDetector::EdgeDetector() {
 
 // Destructor
 EdgeDetector::~EdgeDetector() {
-
+    // Free the memory used by Gx and Gy kernels
+    for (int i = 0; i < 3; ++i) {
+        delete[] Gx[i];
+        delete[] Gy[i];
+    }
+    delete[] Gx;
+    delete[] Gy;
 }
 
 // Detect Edges using the given algorithm
@@ -21,8 +27,8 @@ std::vector<std::pair<int, int>> EdgeDetector::detectEdges(const ImageMatrix& in
 
     std::vector<std::pair<int, int>> edgePixels;
 
-    double** Gx = new double*[3];
-    double** Gy = new double*[3];
+    Gx = new double*[3];
+    Gy = new double*[3];
     for (int i = 0; i < 3; ++i) {
         Gx[i] = new double[3];
         Gy[i] = new double[3];
@@ -71,15 +77,6 @@ std::vector<std::pair<int, int>> EdgeDetector::detectEdges(const ImageMatrix& in
             }
         }
     }
-
-    // Release memory allocated for Gx and Gy
-//    for (int i = 0; i < 3; ++i) {
-//        delete[] Gx[i];
-//        delete[] Gy[i];
-//    }
-//    delete[] Gx;
-//    delete[] Gy;
-
     return edgePixels;
 }
 

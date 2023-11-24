@@ -7,18 +7,28 @@ Convolution::Convolution() : customKernel(nullptr), kernelHeight(0), kernelWidth
 
 // Parametrized constructor for custom kernel and other parameters
 Convolution::Convolution(double** customKernel, int kh, int kw, int stride_val, bool pad)
-        : customKernel(customKernel), kernelHeight(kh), kernelWidth(kw), stride(stride_val), padding(pad) {
+        :  kernelHeight(kh), kernelWidth(kw), stride(stride_val), padding(pad) {
+    this->customKernel = new double *[kh];
+    for (int i = 0; i < kh; i++) {
+        this->customKernel[i] = new double[kw];
+    }
+
+    for (int i = 0; i < kh; i++) {
+        for (int j = 0; j < kw; j++) {
+            this->customKernel[i][j] = customKernel[i][j];
+        }
+    }
 }
 
 // Destructor
 Convolution::~Convolution() {
-//    // Free the memory used by customKernel if it's allocated
-//    if (customKernel != nullptr) {
-//        for (int i = 0; i < kernelHeight; ++i) {
-//            delete[] customKernel[i];
-//        }
-//        delete[] customKernel;
-//    }
+    // Free the memory used by customKernel if it's allocated
+    if (customKernel != nullptr) {
+        for (int i = 0; i < kernelHeight; ++i) {
+            delete[] customKernel[i];
+        }
+        delete[] customKernel;
+    }
 }
 
 // Copy constructor

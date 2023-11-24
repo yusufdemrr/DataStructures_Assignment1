@@ -12,6 +12,8 @@ public:
     std::vector<std::pair<int, int>> detectEdges(const ImageMatrix& input_image);
 
 private:
+    double** Gx; // Gx and Gy kernels are part of the class
+    double** Gy;
 
 };
 
